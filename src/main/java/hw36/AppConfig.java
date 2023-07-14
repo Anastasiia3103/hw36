@@ -1,14 +1,12 @@
 package hw36;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
 @Configuration
 public class AppConfig {
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private Cart cart;
 
     @Bean
     public ShoppingCartManager shoppingCartManager() {
@@ -21,6 +19,7 @@ public class AppConfig {
     }
 
     @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public Cart cart() {
         return new Cart();
     }

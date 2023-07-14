@@ -1,11 +1,10 @@
 package hw36;
 
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class InMemoryProductRepository implements ProductRepository {
     private List<Product> products;
 

@@ -3,8 +3,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 @Component
@@ -57,40 +59,41 @@ public class ShoppingCartManager {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         ShoppingCartManager manager = context.getBean(ShoppingCartManager.class);
-        Scanner scanner = new Scanner(System.in);
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader (System.in));
         int choice = 0;
 
         do {
-            LOGGER.info("1. Show all products");
-            LOGGER.info("2. Add product to cart");
-            LOGGER.info("3. Remove product from cart");
-            LOGGER.info("4. Show cart items");
-            LOGGER.info("0. Exit");
-            LOGGER.info("Enter your choice: ");
-            choice = scanner.nextInt();
+            System.out.println("1. Show all products");
+            System.out.println("2. Add product to cart");
+            System.out.println("3. Remove product from cart");
+            System.out.println("4. Show cart items");
+            System.out.println("0. Exit");
+            System.out.println("Enter your choice: ");
+            choice = Integer.parseInt(reader.readLine());
 
             switch (choice) {
                 case 1 -> manager.showAllProducts ();
                 case 2 -> {
-                    LOGGER.info ("Enter the product ID to add: ");
-                    int addProductId = scanner.nextInt ();
+                    System.out.println ("Enter the product ID to add: ");
+                    int addProductId = Integer.parseInt (reader.readLine ());
                     manager.addToCart (addProductId);
                 }
                 case 3 -> {
-                    LOGGER.info ("Enter the product ID to remove: ");
-                    int removeProductId = scanner.nextInt ();
+                    System.out.println ("Enter the product ID to remove: ");
+                    int removeProductId = Integer.parseInt (reader.readLine ());
                     manager.removeFromCart (removeProductId);
                 }
                 case 4 -> manager.showCartItems ();
-                case 0 -> LOGGER.info ("Exiting...");
-                default -> LOGGER.info ("Invalid choice. Please try again.");
+                case 0 -> System.out.println ("Exiting...");
+                default -> System.out.println ("Invalid choice. Please try again.");
             }
         } while (choice != 0);
 
-        scanner.close();
+        reader.close();
         context.close();
     }
 }
